@@ -1,3 +1,4 @@
+import React from 'react';
 import './index.scss';
 
 const questions = [
@@ -22,37 +23,68 @@ const questions = [
   },
 ];
 
-function Result() {
+function Result({correct, onAgain}) {
   return (
     <div className="result">
-      <img src="https://cdn-icons-png.flaticon.com/512/2278/2278992.png" />
-      <h2>Вы отгадали 3 ответа из 10</h2>
-      <button>Попробовать снова</button>
+      <img src="https://cdn-icons-png.flaticon.com/512/2278/2278992.png" alt='iamge'/>
+      <h2>{`Вы отгадали ${correct} из ${questions.length}`}</h2>
+      <button onClick={onAgain}>Попробовать снова</button>
     </div>
   );
 }
 
-function Game() {
+function Game({clickVariant, step}) {
+
+  const percentage = Math.round((step / questions.length * 100))
+  const question = questions[step]
+  
   return (
     <>
       <div className="progress">
-        <div style={{ width: '50%' }} className="progress__inner"></div>
+        <div style={{ width: `${percentage}%` }} className="progress__inner"></div>
       </div>
-      <h1>Что такое useState?</h1>
+      <h1>{question.title}</h1>
       <ul>
-        <li>Это функция для хранения данных компонента</li>
-        <li>Это глобальный стейт</li>
-        <li>Это когда на ты никому не нужен</li>
+        { 
+        question.variants.map((text, index) => 
+          (<li key={index} onClick={() => clickVariant(index)}>{text}</li>)
+          )
+        }
       </ul>
     </>
   );
 }
 
 function App() {
+
+  const [step, setStep] = React.useState(0);
+  const [correct, setCorrect] = React.useState(0)
+  
+  const OnClickVariant = (result) => {
+
+    if(questions[step].correct === result){
+      setCorrect(correct + 1)
+    }
+
+    setStep(step + 1)
+  }
+
+  const OnAgain = () => {
+    setStep(0)
+    setCorrect(0)
+  }
+
   return (
     <div className="App">
-      <Game />
-      {/* <Result /> */}
+
+      { 
+      step < questions.length ? (
+        <Game clickVariant={OnClickVariant} step={step}/>
+      ) : 
+      (<Result correct={correct} onAgain={OnAgain}/>)
+      }
+      
+      
     </div>
   );
 }
