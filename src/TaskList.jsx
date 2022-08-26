@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import Task from './Task'
 
-function TaskList({items, OnTaskChecked, typeId, OnDeleteTask, OnAddTask, OnEditTask}) {
+function TaskList({items, OnTaskChecked, typeId, OnDeleteTask, OnAddTask, OnEditTask, searchValue}) {
 
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
@@ -53,7 +53,8 @@ function TaskList({items, OnTaskChecked, typeId, OnDeleteTask, OnAddTask, OnEdit
                 }
 
                 return null
-            }).map((task, index) => <Task key={index} {...task} OnTaskChecked={OnTaskChecked} OnDeleteTask={OnDeleteTask} OnEditTask={OnEditTask}/>)
+            }).filter((obj => obj.title.toLowerCase().includes(searchValue.toLowerCase())
+            )).map((task, index) => <Task key={index} {...task} OnTaskChecked={OnTaskChecked} OnDeleteTask={OnDeleteTask} OnEditTask={OnEditTask}/>)
            }
 
             <div className="form">

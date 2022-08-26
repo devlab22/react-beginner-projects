@@ -96,6 +96,10 @@ function App() {
     setPopup(false)
   }
 
+  const OnChangeSearchValue = (value) => {
+    setSearchValue(value);
+  }
+
   return (
     <div className="App">
 
@@ -114,6 +118,8 @@ function App() {
               OnChange={OnChangeType} 
               typeId={typeId} 
               OnDeleteTasks={OnDeleteTasks} 
+              searchValue={searchValue}
+              OnChangeSearchValue={OnChangeSearchValue}
               />
 
             <TaskList
@@ -122,7 +128,9 @@ function App() {
               typeId={typeId}
               OnDeleteTask={OnDeleteTask}
               OnAddTask={OnAddTask}
-              OnEditTask={OnEditTask} />
+              OnEditTask={OnEditTask} 
+              searchValue={searchValue}
+              />
           </div>
         )
       }

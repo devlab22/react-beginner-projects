@@ -17,7 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  width: 600px;
+  width: 650px;
   margin: 50px auto;
   border-radius: 20px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
@@ -29,7 +29,7 @@ body {
   svg {
     position: absolute;
     right: 25px;
-    top: 17px;
+    top: 45px;
     cursor: pointer;
     opacity: 0.3;
     transition: all 0.15s ease-in-out;
@@ -41,6 +41,7 @@ body {
 
   .search {
     position: relative;
+    top: -12px;
   
     input {
       border: 1px solid rgba(0, 0, 0, 0.08);
@@ -115,6 +116,7 @@ body {
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     color: #c0bbd4;
+    margin-top: 30px;
 
     &:hover {
       border-bottom-color: #e3d8fa;
