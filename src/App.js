@@ -1,84 +1,134 @@
+import { useEffect, useState } from 'react';
 import './index.scss';
+import TaskList from './TaskList';
+import Header from './Header';
+import EditTask from './EditTask';
 
 function App() {
+
+  const [typeId, setTypeId] = useState(0);
+  const [taskTypes, setTaskTypes] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [popup, setPopup] = useState(false);
+  const [editTask, setEditTask] = useState({});
+  const [searchValue, setSearchValue] = useState('');
+
+  useEffect(() => {
+    setTaskTypes(['Alle', 'Offen', 'Abgeschlossen'])
+    const items = [
+      {
+        "id": 1,
+        "checked": false,
+        "title": "React",
+        "text": "React has been designed from the start for gradual adoption, and you can use as little or as much React as you need. Whether you want to get a taste of React, add some interactivity to a simple HTML page, or start a complex React-powered app, the links in this section will help you get started.",
+        "begda": "2022-08-10"
+      },
+      {
+        "id": 2,
+        "checked": false,
+        "title": "JavaScript",
+        "text": "JavaScript (JS) ist eine leichtgewichtige, interpretierte oder JIT-übersetzte Sprache mit First-Class-Funktion. Bekannt ist sie hauptsächlich als Skriptsprache für Webseiten geworden, jedoch wird sie auch in vielen Umgebungen außerhalb des Browsers wie zum Beispiel Node.js, Apache CouchDB und Adobe Acrobat eingesetzt. JavaScript ist eine prototypbasierte Sprache, die mehreren Paradigmen folgt, dynamisch ist und sowohl objektorientierte, imperative als auch deklarative Programmierung (z. B. funktionales Programmieren) ermöglicht. Weitere Informationen über JavaScript.",
+        "begda": "2022-08-10"
+      },
+      {
+        "id": 3,
+        "checked": true,
+        "title": "Python",
+        "text": "Python ist eine interpretierte, höhere Programmiersprache, die mit dem Ziel einer guten Programmlesbarkeit entworfen und anfangs im Hochschul- und Ausbildungsbereich als Lehrsprache eingesetzt wurde. Python liegt derzeit in der Version 3.4 vor und wird durch die Python Software Foundation getragen.",
+        "begda": "2022-08-18"
+      }
+    ]
+
+    setTasks(items)
+  }, [])
+
+  const OnChangeType = (index) => {
+    setTypeId(index)
+  }
+
+  const OnTaskChecked = (id, checked) => {
+
+    setTasks(prev => prev.map(obj => {
+
+      if (obj.id === id) {
+        obj.checked = checked;
+      }
+
+      return obj;
+    }))
+  }
+
+  const OnDeleteTask = (id) => {
+    setTasks(prev => prev.filter(obj => obj.id !== id))
+  }
+
+  const OnDeleteTasks = () => {
+    setTasks([]);
+  }
+
+  const OnAddTask = (task) => {
+    console.log(task)
+    setTasks(prev => [...prev, task])
+  }
+
+  const OnEditTask = (task) => {
+    
+    setEditTask(task);
+    setPopup(true);
+  }
+
+  const OnSaveTask = (task) => {
+    
+    setTasks(prev => prev.map(obj => {
+
+      if(obj.id === task.id){
+        obj.title = task.title;
+        obj.text = task.text;
+        obj.checked = task.checked;
+      }
+
+      return obj;
+    }))
+    setPopup(false)
+  }
+
+  const OnCancel = () => {
+    setPopup(false)
+  }
+
   return (
     <div className="App">
-      <div className="top">
-        <ul className="tabs">
-          <li className="active">Все</li>
-          <li>Открытые</li>
-          <li>Завершённые</li>
-        </ul>
-        <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15 2H9c-1.103 0-2 .897-2 2v2H3v2h2v12c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2V8h2V6h-4V4c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm8 16H7V8h10v12z" />
-        </svg>
-      </div>
-      <div className="item">
-        <input class="styled-checkbox" id="checkbox2" type="checkbox" value="value1" />
-        <label for="checkbox2" />
-        <div className="item__content">
-          <b>Это еще одна задача</b>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur ducimus
-            reprehenderit suscipit.
-          </p>
-          <div className="item__bottom">
-            <ul>
-              <li>
-                <svg style={{ width: 24, height: 24 }} viewBox="0 0 70 70">
-                  <path d="M51,19h-4v-4h-4v4H27v-4h-4v4h-4c-2.209,0-4,1.791-4,4v28c0,2.209,1.791,4,4,4h32c2.209,0,4-1.791,4-4V23   C55,20.791,53.209,19,51,19z M51,51H19V31h32V51z M51,27H19v-4h32V27z" />
-                  <rect height="4" width="4" x="35" y="35" />
-                  <rect height="4" width="4" x="43" y="35" />
-                  <rect height="4" width="4" x="35" y="43" />
-                  <rect height="4" width="4" x="27" y="43" />
-                </svg>
-                <span>15 июня 2022 год.</span>
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 2H9c-1.103 0-2 .897-2 2v2H3v2h2v12c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2V8h2V6h-4V4c0-1.103-.897-2-2-2zM9 4h6v2H9V4zm8 16H7V8h10v12z" />
-                </svg>
-              </li>
-              <li>
-                <svg viewBox="0 0 18 18">
-                  <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
-                    <g fill="#000000" id="Core" transform="translate(-213.000000, -129.000000)">
-                      <g id="create" transform="translate(213.000000, 129.000000)">
-                        <path
-                          d="M0,14.2 L0,18 L3.8,18 L14.8,6.9 L11,3.1 L0,14.2 L0,14.2 Z M17.7,4 C18.1,3.6 18.1,3 17.7,2.6 L15.4,0.3 C15,-0.1 14.4,-0.1 14,0.3 L12.2,2.1 L16,5.9 L17.7,4 L17.7,4 Z"
-                          id="Shape"
-                        />
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </li>
-            </ul>
+
+
+      {
+        popup ? (
+          <EditTask
+            {...editTask}
+            OnSave={OnSaveTask}
+            OnCancel={OnCancel}
+          />
+        ) : (
+          <div>
+            <Header 
+              items={taskTypes} 
+              OnChange={OnChangeType} 
+              typeId={typeId} 
+              OnDeleteTasks={OnDeleteTasks} 
+              />
+
+            <TaskList
+              items={tasks}
+              OnTaskChecked={OnTaskChecked}
+              typeId={typeId}
+              OnDeleteTask={OnDeleteTask}
+              OnAddTask={OnAddTask}
+              OnEditTask={OnEditTask} />
           </div>
-        </div>
-      </div>
-      <div className="form">
-        <div className="form__checkbox">
-          <input class="styled-checkbox" id="add-checkbox" type="checkbox" value="value1" />
-          <label for="add-checkbox" />
-        </div>
-        <div class="form__fields">
-          <input type="text" placeholder="Название" className="input-title" />
-          <input type="text" placeholder="Введите текст..." className="input-text" />
-        </div>
-        <svg height="32px" viewBox="0 0 512 512" width="32px">
-          <g>
-            <g>
-              <g>
-                <path d="M256,48C141.1,48,48,141.1,48,256s93.1,208,208,208c114.9,0,208-93.1,208-208S370.9,48,256,48z M256,446.7     c-105.1,0-190.7-85.5-190.7-190.7S150.9,65.3,256,65.3S446.7,150.9,446.7,256S361.1,446.7,256,446.7z" />
-              </g>
-            </g>
-            <g>
-              <polygon points="264.1,128 247.3,128 247.3,247.9 128,247.9 128,264.7 247.3,264.7 247.3,384 264.1,384 264.1,264.7 384,264.7     384,247.9 264.1,247.9   " />
-            </g>
-          </g>
-        </svg>
-      </div>
+        )
+      }
+
+
+
     </div>
   );
 }

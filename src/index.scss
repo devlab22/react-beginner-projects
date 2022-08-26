@@ -128,6 +128,22 @@ body {
       margin-top: 5px;
       color: #8387a6;
     }
+
+    &__title{
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      width: 500px;
+      margin-bottom: 10px;
+    }
+
+    &__text{
+      font-size: 16px;
+      border:none;
+      width: 500px;
+      height: auto;
+      resize: none;
+    }
   }
 
   &__bottom {
@@ -172,20 +188,30 @@ body {
       }
     }
   }
+
+  .popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+  }
 }
 
 .styled-checkbox {
   position: absolute;
   opacity: 0;
 
-  & + label {
+  &+label {
     position: relative;
     cursor: pointer;
     padding: 0;
   }
 
   // Box.
-  & + label:before {
+  &+label:before {
     content: '';
     display: inline-block;
     vertical-align: text-top;
@@ -197,17 +223,17 @@ body {
   }
 
   // Box hover
-  &:hover + label:before {
+  &:hover+label:before {
     background: #f9f9f9;
   }
 
   // Box checked
-  &:checked + label:before {
+  &:checked+label:before {
     background: #5f2acf;
   }
 
   // Checkmark. Could be replaced with an image
-  &:checked + label:after {
+  &:checked+label:after {
     content: '';
     position: absolute;
     left: 7px;
@@ -219,4 +245,25 @@ body {
       4px -8px 0 white;
     transform: rotate(45deg);
   }
+}
+
+.button {
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+}
+
+.accept{
+  background-color: #4CAF50; /* Green */
+  color: white;
+  margin-left: 200px;
+}
+
+.reject{
+  color: white;
+  background-color: #f44336;
 }
